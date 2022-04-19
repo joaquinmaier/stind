@@ -68,12 +68,17 @@ public class STIND
 
     public int read_int() throws IOException {
         boolean reading = true;
+	boolean negate = false;
         ArrayList<Integer> data = new ArrayList<>();
 
         while (reading) {
             int read = INPUT_STREAM.read();
             char value = (char) read;
 
+	    if (value == '-') {
+		    negate = !negate;
+		    continue;
+	    }
             if (value == '\0' || value == '\n') {
                 reading = false;
                 continue;
@@ -90,7 +95,8 @@ public class STIND
             final_number = final_number + (int) (data.get(i) * Math.pow(10, (data.size()-1) - i));
         }
 
-        return final_number;
+	if (negate) 	{ return -final_number; }
+	else		{ return final_number; }
     }
 
     public byte read() throws IOException {
