@@ -1,6 +1,6 @@
 # STIND
 
-_A Scanner That Is Not Dogshit_[^1]
+_A Scanner That Is Not Dogshit_
 
 A simple class that wraps around `InputStream.read()` to provide an easy-to-use alternative to `java.util.Scanner`.
 
@@ -13,5 +13,3 @@ _(It's just one class, it ain't that hard)_
 ---
 
 > Floats & Doubles Branch
-
-[^1]: It's still pretty bad though.
