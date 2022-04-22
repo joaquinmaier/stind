@@ -68,12 +68,17 @@ public class STIND
 
     public int read_int() throws IOException {
         boolean reading = true;
+	boolean negate = false;
         ArrayList<Integer> data = new ArrayList<>();
 
         while (reading) {
             int read = INPUT_STREAM.read();
             char value = (char) read;
 
+	    if (value == '-') { // '-' = 45 in ASCII
+		    negate = !negate;
+		    continue;
+	    }
             if (value == '\0' || value == '\n') {
                 reading = false;
                 continue;
@@ -87,10 +92,54 @@ public class STIND
 
         for (int i = 0; i < data.size(); i++) {
             //System.out.printf("{ %d: %,.2f }\n", i, Math.pow(10, (data.size()-1) - i));
-            final_number = final_number + (int) (data.get(i) * Math.pow(10, (data.size()-1) - i));
+            final_number += (int) (data.get(i) * Math.pow(10, (data.size()-1) - i));
         }
 
+	if (negate) { return -final_number; }
         return final_number;
+    }
+
+    public float read_float() throws IOException {
+	boolean reading = true;
+	boolean negate = false;
+	boolean decimal_added = false;
+	ArrayList<Character> char_numbers = new ArrayList<>();
+
+	while (reading) {
+		int read = INPUT_STREAM.read();
+		char value = (char) read;
+
+		if (read >= 48 && read <= 57) {
+			// It's a number
+			char_numbers.add(value);
+
+		} else if (value == '.' || value == ',') {
+			// It's the decimal point
+			if (!decimal_added) {
+				decimal_added = true;
+				char_numbers.add(value);
+
+			}
+
+		} else if (value == '-') {
+			negate = !negate;
+
+		}
+
+		if (value == '\0' || value == '\n') {
+			reading = false;
+		}
+	}
+
+	float final_number = 0.0f;
+	int decimal_index = char_numbers.indexOf('.');
+
+	for (int i = 0; i < decimal_index; i++) {
+		final_number += ( ( (int) ( char_numbers.get(i) ) - 48 ) * Math.pow(10, (decimal_index-1 - i) ) );
+
+	}
+
+	return final_number;
     }
 
     public byte read() throws IOException {
