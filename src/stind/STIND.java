@@ -133,10 +133,26 @@ public class STIND
 
 	float final_number = 0.0f;
 	int decimal_index = char_numbers.indexOf('.');
+	if (decimal_index == -1) { 
+		decimal_index = char_numbers.indexOf(','); 
+		if (decimal_index == -1) { System.out.println("What the fuck is this number?"); }
+	}
 
+	/* 
 	for (int i = 0; i < decimal_index; i++) {
 		final_number += ( ( (int) ( char_numbers.get(i) ) - 48 ) * Math.pow(10, (decimal_index-1 - i) ) );
 
+	}
+	for (int o = 1; o < (char_numbers.size() - decimal_index + 1); o++) {
+	} */
+
+	// I genuinely have no fucking clue what I've done here.
+	// It returns stuff, I don't know how, I don't know why. All I know is that I have to redo this sometime tomorrow
+	int secondary_index = 0;
+	for (int i = ( char_numbers.size() - (decimal_index+1) - 1 ); i > -(char_numbers.size() - ( decimal_index + 1 )); i--) {
+		if (i != decimal_index)
+			final_number += ( ( (int) (char_numbers.get(secondary_index)) - 48 ) * Math.pow(10, (decimal_index-1 - secondary_index) ) );
+		secondary_index++;
 	}
 
 	return final_number;
