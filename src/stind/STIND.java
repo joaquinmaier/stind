@@ -4,7 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-// Scanner That Is Not Dogshit
+/**
+ * Simple InputStream wrapper that aims to simplify input operations
+ *
+ * @version 1.0.0
+ * @author Joaquin Maier
+ */
 public class STIND
 {
     private final InputStream INPUT_STREAM;
@@ -13,6 +18,14 @@ public class STIND
         INPUT_STREAM = is;
     }
 
+    /**
+     * A Result-less version of the {@linkplain STIND#read_line() read_line() function}, that opts to throw the exception instead.
+     * <b>This function has to be surrounded with try/catch statements.</b>
+     *
+     * @return                  The String read from the InputStream
+     * @throws IOException      I/O Exception that occurred when reading from the InputStream
+     * @see STIND#read_line()   Same function that uses Result instead
+     */
     public String read_line_throws() throws IOException {
         boolean reading = true;
         ArrayList<Character> data = new ArrayList<>();
@@ -39,6 +52,12 @@ public class STIND
         return final_string;
     }
 
+    /**
+     * Function that reads a String from the InputStream the class is listening to. It makes use of the {@linkplain Result Result type} in order to avoid having to use try/catch statements.
+     *
+     * @return                          The result of the operation, with either a <i>String</i> or an <i>Exception</i> contained inside
+     * @see STIND#read_line_throws()    Result-less version of the same function
+     */
     public Result<String, IOException> read_line() {
         boolean reading = true;
         ArrayList<Character> data = new ArrayList<>();
@@ -70,6 +89,14 @@ public class STIND
         return new Result<String, IOException>(final_string);
     }
 
+    /**
+     * A Result-less version of the {@linkplain STIND#read_chars() read_chars() function}, that throws the exception instead.
+     * <b>This function has to be surrounded with try/catch statements.</b>
+     *
+     * @return                  An array of the characters read from the InputStream
+     * @throws IOException      I/O Exception that occurred when reading from the InputStream
+     * @see STIND#read_chars()  Same function that uses Result instead
+     */
     public char[] read_chars_throws() throws IOException {
         boolean reading = true;
         ArrayList<Character> data = new ArrayList<>();
@@ -97,6 +124,12 @@ public class STIND
 
     }
 
+    /**
+     * Function that reads an array of characters from the InputStream the class is listening to. It makes use of the {@linkplain Result Result type} in order to avoid having to use try/catch statments.
+     *
+     * @return                          The result of the operation, with either a <i>char[]</i> or an <i>Exception</i> contained inside
+     * @see STIND#read_chars_throws()   Result-less version of the same function
+     */
     public Result<char[], IOException> read_chars() {
         boolean reading = true;
         ArrayList<Character> data = new ArrayList<>();
@@ -130,6 +163,14 @@ public class STIND
         return new Result<>(final_array);
     }
 
+    /**
+     * A Result-less version of the {@linkplain STIND#read_int() read_int() function}, that throws the exception instead.
+     * <b>This function has to be surrounded with try/catch statements.</b>
+     *
+     * @return                  The number read from the InputStream
+     * @throws IOException      I/O Exception that occurred when reading from the InputStream
+     * @see STIND#read_int()    Same function that uses Result instead
+     */
     public int read_int_throws() throws IOException {
         boolean reading = true;
 	    boolean negate = false;
@@ -163,6 +204,12 @@ public class STIND
 	else		{ return final_number; }
     }
 
+    /**
+     * Function that reads an integer number from the InputStream the class is listening to. It makes use of the {@linkplain Result Result type} in order to avoid having to use try/catch statements.
+     *
+     * @return                      The result of the operation, with either an <i>Integer</i> or an <i>Exception</i> contained inside
+     * @see STIND#read_int_throws() Result-less version of the same function
+     */
     public Result<Integer, IOException> read_int() {
         boolean reading = true;
         boolean negate = false;
@@ -203,12 +250,26 @@ public class STIND
         else		    { return new Result<>(final_number); }
     }
 
+    /**
+     * A Result-less version of the {@linkplain STIND#read() read() function}, that throws the exception instead.
+     * <b>This function has to be surrounded with try/catch statements.</b>
+     *
+     * @return              The first byte read from the InputStream.
+     * @throws IOException  I/O Exception that occurred when reading from the InputStream
+     * @see STIND#read()    Same function that uses Result instead
+     */
     public byte read_throws() throws IOException {
         int read = INPUT_STREAM.read();
 
         return (byte) read;
     }
 
+    /**
+     * Function that reads the first byte from the InputStream the class is listening to. It makes use of the {@linkplain Result Result type} in order to avoid having to use try/catch statements.
+     *
+     * @return                  The result of the operation, with either a <i>Byte</i> or an <i>Exception</i> contained inside
+     * @see STIND#read_throws() Result-less version of the same function
+     */
     public Result<Byte, IOException> read() {
         int read;
 
@@ -222,6 +283,14 @@ public class STIND
         return new Result<>((byte) read);
     }
 
+    /**
+     * A Result-less version of the {@linkplain STIND#read_bytes() read_bytes() function}, that throws the exception instead.
+     * <b>This function has to be surrounded with try/catch statements.</b>
+     *
+     * @return                  An <i>ArrayList</i> with the bytes read
+     * @throws IOException      I/O Exception that occurred when reading from the InputStream
+     * @see STIND#read_bytes()  Same function that uses Result instead
+     */
     public ArrayList<Byte> read_bytes_throws() throws IOException {
         boolean reading = true;
         ArrayList<Byte> bytes = new ArrayList<>();
@@ -243,6 +312,12 @@ public class STIND
 
     }
 
+    /**
+     * Function that reads the bytes from the InputStream the class is listening to. It makes use of the {@linkplain Result Result type} in order to avoid having to use try/catch statements.
+     *
+     * @return                          The result of the operation, with either an <i>ArrayList</i> of <i>Byte</i>s or an <i>Exception</i> contained inside
+     * @see STIND#read_bytes_throws()   Result-less version of the same function
+     */
     public Result<ArrayList<Byte>, IOException> read_bytes() {
         boolean reading = true;
         ArrayList<Byte> bytes = new ArrayList<>();
