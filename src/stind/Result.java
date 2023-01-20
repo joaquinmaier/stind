@@ -24,6 +24,16 @@ public class Result<T, S extends Exception>
 	}
 
 	/**
+	 * Method that returns whether or not the contained value is an error.
+	 *
+	 * @return	<i>True</i> if the Result is an error, <i>false</i> otherwise.
+	 */
+	public boolean is_err() {
+		if ( type ) return true;
+		return false;
+	}
+
+	/**
 	 * Method that returns the contained type if the Result is Ok, or throws the Exception in case it is an error.
 	 *
 	 * @return				Value contained inside the Result
@@ -47,5 +57,18 @@ public class Result<T, S extends Exception>
 			return null;
 		}
 		return val;
+	}
+
+	/**
+	 * Method that returns the contained Error instance.
+	 *
+	 * @return	The error instance <b>OR null if no error is contained.</b>
+	 */
+	public S unwrap_err() {
+		if ( type )
+			return this.err;
+
+		else
+			return null;
 	}
 }
