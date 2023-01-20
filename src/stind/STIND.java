@@ -506,7 +506,7 @@ public class STIND
      * @throws IOException      I/O Exception that occurred when reading from the InputStream.
      * @see STIND#read_float()  Same function that uses {@linkplain Result Result} instead.
      */
-    public Result<Float, IOException> read_float_throws() throws IOException {
+    public Float read_float_throws() throws IOException {
         return this.read_double_throws().floatValue();
     }
 }
