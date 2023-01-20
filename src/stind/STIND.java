@@ -344,4 +344,170 @@ public class STIND
 
         return new Result<>(bytes);
     }
+
+    /**
+     * Method that reads doubles from the InputStream the class is listening to. It makes use of the {@linkplain Result Result type} in order to avoid having to use try/catch statements.
+     *
+     * @return                          The result of the operation with either a <i>Double</i> or an <i>Exception</i> contained inside
+     * @see STIND#read_double_throws()  Result-less version of the same function
+     */
+    public Result<Double, IOException> read_double() {
+        boolean reading = true;
+        boolean negate = false;
+        boolean after_period = false;
+        ArrayList<Integer> whole_numbers    = new ArrayList<>();
+        ArrayList<Integer> fractions        = new ArrayList<>();
+
+        int read;
+        while ( reading ) {
+            try {
+                read = INPUT_STREAM.read();
+
+            } catch ( IOException e ) {
+                return new Result<>( e );
+            }
+
+            char value = (char) read;
+
+            switch ( value ) {
+                case '-':
+                    negate = !negate;
+                    continue;
+
+                case '\0':
+                case '\n':
+                    reading = false;
+                    continue;
+
+                case '.':
+                    after_period = true;
+                    continue;
+            }
+
+            if ( !after_period ) {
+                whole_numbers.add( read - 48 );
+
+            } else {
+                fractions.add( read - 48 );
+
+            }
+
+        }
+
+        double final_number = 0.;
+
+        for ( int i = 0; i < whole_numbers.size(); i++ ) {
+            final_number = final_number + (int) ( whole_numbers.get( i ) * Math.pow( 10, ( whole_numbers.size() - 1 ) - i ) );
+
+        }
+
+        for ( int j = 0; j < fractions.size(); j++ ) {
+            final_number = final_number + ( fractions.get( j ) * Math.pow( 10, -1 - j ) );
+
+        }
+
+        if ( negate )   { return new Result<>( -final_number ); }
+        else            { return new Result<>( final_number ); }
+    }
+
+    /**
+     * A Result-less version of the {@linkplain STIND#read_double() read_double() function} that throws the Exception instead.
+     * <b>This method has to be surrounded with try/catch statements or otherwise</b>
+     *
+     * @return                  The Double read.
+     * @throws IOException      I/O Exception that occurred when reading from the InputStream.
+     * @see STIND#read_double() Same function that uses {@linkplain Result Result} instead.
+     */
+    public Double read_double_throws() throws IOException {
+        boolean reading = true;
+        boolean negate = false;
+        boolean after_period = false;
+        ArrayList<Integer> whole_numbers    = new ArrayList<>();
+        ArrayList<Integer> fractions        = new ArrayList<>();
+
+        int read;
+        while ( reading ) {
+            read = INPUT_STREAM.read();
+
+            char value = (char) read;
+
+            switch ( value ) {
+                case '-':
+                    negate = !negate;
+                    continue;
+
+                case '\0':
+                case '\n':
+                    reading = false;
+                    continue;
+
+                case '.':
+                    after_period = true;
+                    continue;
+            }
+
+            if ( !after_period ) {
+                whole_numbers.add( read - 48 );
+
+            } else {
+                fractions.add( read - 48 );
+
+            }
+
+        }
+
+        double final_number = 0.;
+
+        for ( int i = 0; i < whole_numbers.size(); i++ ) {
+            final_number = final_number + (int) ( whole_numbers.get( i ) * Math.pow( 10, ( whole_numbers.size() - 1 ) - i ) );
+
+        }
+
+        for ( int j = 0; j < fractions.size(); j++ ) {
+            final_number = final_number + ( fractions.get( j ) * Math.pow( 10, -1 - j ) );
+
+        }
+
+        if ( negate )   { return -final_number; }
+        else            { return final_number; }
+    }
+
+
+    /**
+     * Method that reads floats from the InputStream the class is listening to. It makes use of the {@linkplain Result Result type} in order to avoid having to use try/catch statements.
+     *
+     * @return                          The Result of the operation with either a <i>Float</i> or an <i>Exception</i> contained inside.
+     * @see STIND#read_float_throws()   Result-less version of the same function.
+     */
+    public Result<Float, IOException> read_float() {
+        Result<Double, IOException> result = this.read_double();
+
+        if ( result.is_err() ) {
+            return new Result<>( result.unwrap_err() );
+        }
+
+        try {
+            return new Result<>( result.unwrap().floatValue() );
+
+        } catch ( Exception e ) {
+            // We proceed to crash the program because there should have been no error since we checked earlier.
+            System.exit( 1 );
+        }
+
+        // This will never be reached, but the compiler doesn't seem to notice that, so have a hacky workaround.
+        return null;
+    }
+
+    /**
+     * A Result-less version of the {@linkplain STIND#read_float() read_float() function} that throws the Exception instead.
+     * <b>This method has to be surrounded with try/catch statements or otherwise.</b>
+     *
+     * @return                  The Float read.
+     * @throws IOException      I/O Exception that occurred when reading from the InputStream.
+     * @see STIND#read_float()  Same function that uses {@linkplain Result Result} instead.
+     */
+    public Float read_float_throws() throws IOException {
+        return this.read_double_throws().floatValue();
+    }
 }
+
